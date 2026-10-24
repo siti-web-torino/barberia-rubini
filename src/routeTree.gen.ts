@@ -17,6 +17,9 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as PrenotazioneCodeRouteImport } from './routes/prenotazione.$code'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAppuntamentiRouteImport } from './routes/_authenticated/admin.appuntamenti'
+import { Route as AuthenticatedAdminCalendarioRouteImport } from './routes/_authenticated/admin.calendario'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +60,23 @@ const PrenotazioneCodeRoute = PrenotazioneCodeRouteImport.update({
   path: '/prenotazione/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminAppuntamentiRoute =
+  AuthenticatedAdminAppuntamentiRouteImport.update({
+    id: '/appuntamenti',
+    path: '/appuntamenti',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminCalendarioRoute =
+  AuthenticatedAdminCalendarioRouteImport.update({
+    id: '/calendario',
+    path: '/calendario',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -64,8 +84,11 @@ export interface FileRoutesByFullPath {
   '/prenota': typeof PrenotaRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/prenotazione/$code': typeof PrenotazioneCodeRoute
+  '/admin/appuntamenti': typeof AuthenticatedAdminAppuntamentiRoute
+  '/admin/calendario': typeof AuthenticatedAdminCalendarioRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -73,8 +96,10 @@ export interface FileRoutesByTo {
   '/prenota': typeof PrenotaRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/prenotazione/$code': typeof PrenotazioneCodeRoute
+  '/admin/appuntamenti': typeof AuthenticatedAdminAppuntamentiRoute
+  '/admin/calendario': typeof AuthenticatedAdminCalendarioRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -84,8 +109,11 @@ export interface FileRoutesById {
   '/prenota': typeof PrenotaRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/prenotazione/$code': typeof PrenotazioneCodeRoute
+  '/_authenticated/admin/appuntamenti': typeof AuthenticatedAdminAppuntamentiRoute
+  '/_authenticated/admin/calendario': typeof AuthenticatedAdminCalendarioRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +125,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/admin'
     | '/prenotazione/$code'
+    | '/admin/appuntamenti'
+    | '/admin/calendario'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -104,8 +135,10 @@ export interface FileRouteTypes {
     | '/prenota'
     | '/privacy'
     | '/reset-password'
-    | '/admin'
     | '/prenotazione/$code'
+    | '/admin/appuntamenti'
+    | '/admin/calendario'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -116,6 +149,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/admin'
     | '/prenotazione/$code'
+    | '/_authenticated/admin/appuntamenti'
+    | '/_authenticated/admin/calendario'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -186,15 +222,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrenotazioneCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/appuntamenti': {
+      id: '/_authenticated/admin/appuntamenti'
+      path: '/appuntamenti'
+      fullPath: '/admin/appuntamenti'
+      preLoaderRoute: typeof AuthenticatedAdminAppuntamentiRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/calendario': {
+      id: '/_authenticated/admin/calendario'
+      path: '/calendario'
+      fullPath: '/admin/calendario'
+      preLoaderRoute: typeof AuthenticatedAdminCalendarioRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAppuntamentiRoute: typeof AuthenticatedAdminAppuntamentiRoute
+  AuthenticatedAdminCalendarioRoute: typeof AuthenticatedAdminCalendarioRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAppuntamentiRoute: AuthenticatedAdminAppuntamentiRoute,
+  AuthenticatedAdminCalendarioRoute: AuthenticatedAdminCalendarioRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
