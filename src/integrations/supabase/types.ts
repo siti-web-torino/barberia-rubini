@@ -14,16 +14,381 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointment_services: {
+        Row: {
+          appointment_id: string
+          duration_min: number
+          id: string
+          name: string
+          price_cents: number
+          service_id: string | null
+        }
+        Insert: {
+          appointment_id: string
+          duration_min: number
+          id?: string
+          name: string
+          price_cents: number
+          service_id?: string | null
+        }
+        Update: {
+          appointment_id?: string
+          duration_min?: number
+          id?: string
+          name?: string
+          price_cents?: number
+          service_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointment_services_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointment_services_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      appointments: {
+        Row: {
+          barber_id: string | null
+          barber_name: string
+          code: string
+          created_at: string
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string
+          end_at: string
+          id: string
+          notes: string
+          source: string
+          start_at: string
+          status: Database["public"]["Enums"]["appointment_status"]
+          total_cents: number
+          total_minutes: number
+          updated_at: string
+        }
+        Insert: {
+          barber_id?: string | null
+          barber_name: string
+          code: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name: string
+          customer_phone: string
+          end_at: string
+          id?: string
+          notes?: string
+          source?: string
+          start_at: string
+          status?: Database["public"]["Enums"]["appointment_status"]
+          total_cents: number
+          total_minutes: number
+          updated_at?: string
+        }
+        Update: {
+          barber_id?: string | null
+          barber_name?: string
+          code?: string
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string
+          end_at?: string
+          id?: string
+          notes?: string
+          source?: string
+          start_at?: string
+          status?: Database["public"]["Enums"]["appointment_status"]
+          total_cents?: number
+          total_minutes?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_barber_id_fkey"
+            columns: ["barber_id"]
+            isOneToOne: false
+            referencedRelation: "barbers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      barber_services: {
+        Row: {
+          barber_id: string
+          service_id: string
+        }
+        Insert: {
+          barber_id: string
+          service_id: string
+        }
+        Update: {
+          barber_id?: string
+          service_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "barber_services_barber_id_fkey"
+            columns: ["barber_id"]
+            isOneToOne: false
+            referencedRelation: "barbers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "barber_services_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      barbers: {
+        Row: {
+          active: boolean
+          bio: string
+          created_at: string
+          id: string
+          name: string
+          photo_url: string | null
+          sort_order: number
+          specialties: string[]
+        }
+        Insert: {
+          active?: boolean
+          bio?: string
+          created_at?: string
+          id?: string
+          name: string
+          photo_url?: string | null
+          sort_order?: number
+          specialties?: string[]
+        }
+        Update: {
+          active?: boolean
+          bio?: string
+          created_at?: string
+          id?: string
+          name?: string
+          photo_url?: string | null
+          sort_order?: number
+          specialties?: string[]
+        }
+        Relationships: []
+      }
+      email_log: {
+        Row: {
+          appointment_id: string | null
+          created_at: string
+          error: string | null
+          id: string
+          kind: string
+          recipient: string
+          status: string
+        }
+        Insert: {
+          appointment_id?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          kind: string
+          recipient: string
+          status: string
+        }
+        Update: {
+          appointment_id?: string | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          kind?: string
+          recipient?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_log_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          description: string
+          duration_min: number
+          id: string
+          image_url: string | null
+          name: string
+          price_cents: number
+          sort_order: number
+          visible: boolean
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          description?: string
+          duration_min: number
+          id?: string
+          image_url?: string | null
+          name: string
+          price_cents: number
+          sort_order?: number
+          visible?: boolean
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          description?: string
+          duration_min?: number
+          id?: string
+          image_url?: string | null
+          name?: string
+          price_cents?: number
+          sort_order?: number
+          visible?: boolean
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      time_off: {
+        Row: {
+          barber_id: string | null
+          created_at: string
+          end_date: string
+          id: string
+          reason: string
+          start_date: string
+        }
+        Insert: {
+          barber_id?: string | null
+          created_at?: string
+          end_date: string
+          id?: string
+          reason?: string
+          start_date: string
+        }
+        Update: {
+          barber_id?: string | null
+          created_at?: string
+          end_date?: string
+          id?: string
+          reason?: string
+          start_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_off_barber_id_fkey"
+            columns: ["barber_id"]
+            isOneToOne: false
+            referencedRelation: "barbers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      working_hours: {
+        Row: {
+          barber_id: string
+          end_time: string
+          id: string
+          start_time: string
+          weekday: number
+        }
+        Insert: {
+          barber_id: string
+          end_time: string
+          id?: string
+          start_time: string
+          weekday: number
+        }
+        Update: {
+          barber_id?: string
+          end_time?: string
+          id?: string
+          start_time?: string
+          weekday?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "working_hours_barber_id_fkey"
+            columns: ["barber_id"]
+            isOneToOne: false
+            referencedRelation: "barbers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
+      appointment_status:
+        | "pending"
+        | "confirmed"
+        | "cancelled"
+        | "completed"
+        | "no_show"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +515,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+      appointment_status: [
+        "pending",
+        "confirmed",
+        "cancelled",
+        "completed",
+        "no_show",
+      ],
+    },
   },
 } as const
