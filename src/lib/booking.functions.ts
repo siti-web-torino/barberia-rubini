@@ -223,7 +223,7 @@ export const adminSaveAppointment = createServerFn({ method: "POST" })
       const { data: ex } = await supabaseAdmin.from("appointments").select("*, appointment_services(*)").eq("id", data.id).single();
       existing = ex;
       const oldIds = (ex?.appointment_services ?? []).map((s: any) => s.service_id).sort().join();
-      if (oldIds === [...data.serviceIds].sort().join()) snap = ex.appointment_services;
+      if (oldIds === [...data.serviceIds].sort().join()) snap = ex!.appointment_services;
     }
     if (!snap.length) {
       const svcs = await loadServices(data.serviceIds, false);

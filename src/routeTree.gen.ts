@@ -18,8 +18,13 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as PrenotazioneCodeRouteImport } from './routes/prenotazione.$code'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAccountRouteImport } from './routes/_authenticated/admin.account'
 import { Route as AuthenticatedAdminAppuntamentiRouteImport } from './routes/_authenticated/admin.appuntamenti'
+import { Route as AuthenticatedAdminBarbieriRouteImport } from './routes/_authenticated/admin.barbieri'
 import { Route as AuthenticatedAdminCalendarioRouteImport } from './routes/_authenticated/admin.calendario'
+import { Route as AuthenticatedAdminOrariRouteImport } from './routes/_authenticated/admin.orari'
+import { Route as AuthenticatedAdminSitoRouteImport } from './routes/_authenticated/admin.sito'
+import { Route as AuthenticatedAdminTrattamentiRouteImport } from './routes/_authenticated/admin.trattamenti'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -65,16 +70,44 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAccountRoute =
+  AuthenticatedAdminAccountRouteImport.update({
+    id: '/account',
+    path: '/account',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminAppuntamentiRoute =
   AuthenticatedAdminAppuntamentiRouteImport.update({
     id: '/appuntamenti',
     path: '/appuntamenti',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminBarbieriRoute =
+  AuthenticatedAdminBarbieriRouteImport.update({
+    id: '/barbieri',
+    path: '/barbieri',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCalendarioRoute =
   AuthenticatedAdminCalendarioRouteImport.update({
     id: '/calendario',
     path: '/calendario',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminOrariRoute = AuthenticatedAdminOrariRouteImport.update({
+  id: '/orari',
+  path: '/orari',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminSitoRoute = AuthenticatedAdminSitoRouteImport.update({
+  id: '/sito',
+  path: '/sito',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminTrattamentiRoute =
+  AuthenticatedAdminTrattamentiRouteImport.update({
+    id: '/trattamenti',
+    path: '/trattamenti',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 
@@ -86,8 +119,13 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/prenotazione/$code': typeof PrenotazioneCodeRoute
+  '/admin/account': typeof AuthenticatedAdminAccountRoute
   '/admin/appuntamenti': typeof AuthenticatedAdminAppuntamentiRoute
+  '/admin/barbieri': typeof AuthenticatedAdminBarbieriRoute
   '/admin/calendario': typeof AuthenticatedAdminCalendarioRoute
+  '/admin/orari': typeof AuthenticatedAdminOrariRoute
+  '/admin/sito': typeof AuthenticatedAdminSitoRoute
+  '/admin/trattamenti': typeof AuthenticatedAdminTrattamentiRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -97,8 +135,13 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/prenotazione/$code': typeof PrenotazioneCodeRoute
+  '/admin/account': typeof AuthenticatedAdminAccountRoute
   '/admin/appuntamenti': typeof AuthenticatedAdminAppuntamentiRoute
+  '/admin/barbieri': typeof AuthenticatedAdminBarbieriRoute
   '/admin/calendario': typeof AuthenticatedAdminCalendarioRoute
+  '/admin/orari': typeof AuthenticatedAdminOrariRoute
+  '/admin/sito': typeof AuthenticatedAdminSitoRoute
+  '/admin/trattamenti': typeof AuthenticatedAdminTrattamentiRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -111,8 +154,13 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/prenotazione/$code': typeof PrenotazioneCodeRoute
+  '/_authenticated/admin/account': typeof AuthenticatedAdminAccountRoute
   '/_authenticated/admin/appuntamenti': typeof AuthenticatedAdminAppuntamentiRoute
+  '/_authenticated/admin/barbieri': typeof AuthenticatedAdminBarbieriRoute
   '/_authenticated/admin/calendario': typeof AuthenticatedAdminCalendarioRoute
+  '/_authenticated/admin/orari': typeof AuthenticatedAdminOrariRoute
+  '/_authenticated/admin/sito': typeof AuthenticatedAdminSitoRoute
+  '/_authenticated/admin/trattamenti': typeof AuthenticatedAdminTrattamentiRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -125,8 +173,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/admin'
     | '/prenotazione/$code'
+    | '/admin/account'
     | '/admin/appuntamenti'
+    | '/admin/barbieri'
     | '/admin/calendario'
+    | '/admin/orari'
+    | '/admin/sito'
+    | '/admin/trattamenti'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -136,8 +189,13 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/prenotazione/$code'
+    | '/admin/account'
     | '/admin/appuntamenti'
+    | '/admin/barbieri'
     | '/admin/calendario'
+    | '/admin/orari'
+    | '/admin/sito'
+    | '/admin/trattamenti'
     | '/admin'
   id:
     | '__root__'
@@ -149,8 +207,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/_authenticated/admin'
     | '/prenotazione/$code'
+    | '/_authenticated/admin/account'
     | '/_authenticated/admin/appuntamenti'
+    | '/_authenticated/admin/barbieri'
     | '/_authenticated/admin/calendario'
+    | '/_authenticated/admin/orari'
+    | '/_authenticated/admin/sito'
+    | '/_authenticated/admin/trattamenti'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -229,11 +292,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/account': {
+      id: '/_authenticated/admin/account'
+      path: '/account'
+      fullPath: '/admin/account'
+      preLoaderRoute: typeof AuthenticatedAdminAccountRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/appuntamenti': {
       id: '/_authenticated/admin/appuntamenti'
       path: '/appuntamenti'
       fullPath: '/admin/appuntamenti'
       preLoaderRoute: typeof AuthenticatedAdminAppuntamentiRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/barbieri': {
+      id: '/_authenticated/admin/barbieri'
+      path: '/barbieri'
+      fullPath: '/admin/barbieri'
+      preLoaderRoute: typeof AuthenticatedAdminBarbieriRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/calendario': {
@@ -243,18 +320,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminCalendarioRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/orari': {
+      id: '/_authenticated/admin/orari'
+      path: '/orari'
+      fullPath: '/admin/orari'
+      preLoaderRoute: typeof AuthenticatedAdminOrariRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/sito': {
+      id: '/_authenticated/admin/sito'
+      path: '/sito'
+      fullPath: '/admin/sito'
+      preLoaderRoute: typeof AuthenticatedAdminSitoRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/trattamenti': {
+      id: '/_authenticated/admin/trattamenti'
+      path: '/trattamenti'
+      fullPath: '/admin/trattamenti'
+      preLoaderRoute: typeof AuthenticatedAdminTrattamentiRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAccountRoute: typeof AuthenticatedAdminAccountRoute
   AuthenticatedAdminAppuntamentiRoute: typeof AuthenticatedAdminAppuntamentiRoute
+  AuthenticatedAdminBarbieriRoute: typeof AuthenticatedAdminBarbieriRoute
   AuthenticatedAdminCalendarioRoute: typeof AuthenticatedAdminCalendarioRoute
+  AuthenticatedAdminOrariRoute: typeof AuthenticatedAdminOrariRoute
+  AuthenticatedAdminSitoRoute: typeof AuthenticatedAdminSitoRoute
+  AuthenticatedAdminTrattamentiRoute: typeof AuthenticatedAdminTrattamentiRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAccountRoute: AuthenticatedAdminAccountRoute,
   AuthenticatedAdminAppuntamentiRoute: AuthenticatedAdminAppuntamentiRoute,
+  AuthenticatedAdminBarbieriRoute: AuthenticatedAdminBarbieriRoute,
   AuthenticatedAdminCalendarioRoute: AuthenticatedAdminCalendarioRoute,
+  AuthenticatedAdminOrariRoute: AuthenticatedAdminOrariRoute,
+  AuthenticatedAdminSitoRoute: AuthenticatedAdminSitoRoute,
+  AuthenticatedAdminTrattamentiRoute: AuthenticatedAdminTrattamentiRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
